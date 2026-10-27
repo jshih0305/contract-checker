@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
+/* 設計基調：紙張底色、墨色文字、印章朱紅作為唯一強調色 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --paper: #f7f4ee;
+  --surface: #fffdf9;
+  --ink: #1a1714;
+  --ink-soft: #4a443d;
+  --muted: #877e72;
+  --line: #e5dfd4;
+  --line-strong: #d3cbbd;
+  --accent: #b4361f;
+  --accent-ink: #fffdf9;
+  --accent-soft: #f5e4dc;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --risk-low: #2f6b4f;
+  --risk-low-soft: #e2eee6;
+  --risk-medium: #94620f;
+  --risk-medium-soft: #f5ebd5;
+  --risk-high: #b4361f;
+  --risk-high-soft: #f5e4dc;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #12100e;
+    --surface: #1a1714;
+    --ink: #f1ece3;
+    --ink-soft: #c9c1b4;
+    --muted: #8f867a;
+    --line: #2d2823;
+    --line-strong: #3d3731;
+    --accent: #e0694d;
+    --accent-ink: #12100e;
+    --accent-soft: #3a1e17;
+
+    --risk-low: #7cc2a0;
+    --risk-low-soft: #1c2c24;
+    --risk-medium: #e0b45e;
+    --risk-medium-soft: #33281a;
+    --risk-high: #e98a72;
+    --risk-high-soft: #3a1e17;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-risk-low: var(--risk-low);
+  --color-risk-low-soft: var(--risk-low-soft);
+  --color-risk-medium: var(--risk-medium);
+  --color-risk-medium-soft: var(--risk-medium-soft);
+  --color-risk-high: var(--risk-high);
+  --color-risk-high-soft: var(--risk-high-soft);
+
+  --font-sans: var(--font-noto-sans-tc), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-noto-serif-tc), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --animate-rise: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-feature-settings: "palt";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+@utility btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium tracking-wide text-paper transition-all duration-200 hover:bg-accent hover:text-accent-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-ink disabled:hover:text-paper;
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-6 py-3 text-sm font-medium tracking-wide text-ink transition-colors duration-200 hover:border-ink;
+}
+
+@utility eyebrow {
+  @apply font-mono text-[11px] font-medium tracking-[0.2em] text-muted uppercase;
+}
+
+@utility paper-grid {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
